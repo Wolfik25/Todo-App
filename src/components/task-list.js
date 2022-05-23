@@ -1,8 +1,20 @@
 import Task from './task';
 
-const TaskList = () => {
+
+const TaskList = ({ todos, onDeleted }) => {
+    
+    const elements = todos.map((el) => {
+        const { id, ...elProps } = el;
+        return (
+            <Task {...elProps} key={id}
+                onDeleted={() => onDeleted(id) } />
+    )
+
+})
+
     return (
         <ul className="todo-list">
+            { elements }
             {/* <li className="completed">
                 <div className="view">
                     
@@ -26,10 +38,6 @@ const TaskList = () => {
                 </div>
                <input type="text" className="edit" value="Editing task" />
             </li> */}
-
-            <Task id='1' value='Completed task' />
-            <Task id='2' value='Editing task' />
-            <Task id='3' value='Active task' />
         </ul>
     );
 }

@@ -10,7 +10,5 @@ import './index.css';
 // Footer - футер с информацией и кнопками
 // TasksFilter - фильтры в футере
 
-
-
 ReactDOM.render(<App />, document.getElementById("root"));
 
