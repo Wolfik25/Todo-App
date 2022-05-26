@@ -96,6 +96,12 @@ class App extends Component {
         });
     };
 
+
+    onClearCompleted = () => {
+        const { todoData } = this.state;
+        this.setState({ todoData: todoData.filter((task) => !task.done) })
+    }
+
     render() {
         const { todoData, filter } = this.state;
         const tasks = this.getTasksByFilter();
@@ -116,7 +122,8 @@ class App extends Component {
                         onToggleDone={this.onToggleDone} />
                     <Footer todoCount={todoCount}
                         filter={filter}
-                        onToggleFilterHandler={this.onToggleFilter}/>
+                        onClearCompleted={this.onClearCompleted}
+                        onToggleFilterHandler={this.onToggleFilter} />
                 </section>
             </section>
         );
