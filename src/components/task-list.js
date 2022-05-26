@@ -1,13 +1,14 @@
 import Task from './task';
 
 
-const TaskList = ({ todos, onDeleted }) => {
+const TaskList = ({ tasks, onDeleted, onToggleDone }) => {
     
-    const elements = todos.map((el) => {
+    const elements = tasks.map((el) => {
         const { id, ...elProps } = el;
         return (
             <Task {...elProps} key={id}
-                onDeleted={() => onDeleted(id) } />
+                onDeleted={() => onDeleted(id)}
+                onToggleDone={ ()=> onToggleDone(id)}/>
     )
 
 })
