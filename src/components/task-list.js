@@ -10,7 +10,6 @@ const TaskList = ({ tasks, onDeleted, onToggleDone }) => {
                 onDeleted={() => onDeleted(id)}
                 onToggleDone={ ()=> onToggleDone(id)}/>
     )
-
 })
 
     return (

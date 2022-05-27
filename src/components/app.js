@@ -13,7 +13,6 @@ class App extends Component {
             this.createTodoItem('Editing task'),
             this.createTodoItem('Active task')
         ],
-        filter: 'All'
     };
 
     createTodoItem(label) {

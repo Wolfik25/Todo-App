@@ -4,7 +4,7 @@ import React from 'react';
 class Task extends React.Component {
 
     render() {
-        const { label, onDeleted, onToggleDone, done, time } = this.props;
+        const { label, onDeleted, onToggleDone, done, time, id } = this.props;
 
         let classNames;
 
@@ -14,7 +14,8 @@ class Task extends React.Component {
         return (
             <li className={classNames}>
                 <div className="view">
-                    <input className="toggle" type="checkbox" />
+                    <input className="toggle" type="checkbox" checked={done}
+                        onChange={() => onToggleDone(id, 'completed')}/>
                     <label>
                         <span className="description"
                             onClick={onToggleDone}
