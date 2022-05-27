@@ -21,6 +21,7 @@ class App extends Component {
             label,
             done: false,
             id: this.maxId++,
+            time: new Date()
         }
     }
 

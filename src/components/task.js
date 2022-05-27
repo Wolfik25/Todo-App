@@ -1,13 +1,10 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import React from 'react';
 
-class CreateDate {
-    beginDate = formatDistanceToNow(new Date())
-}
 class Task extends React.Component {
-    
+
     render() {
-        const { label, onDeleted, onToggleDone, done } = this.props;
+        const { label, onDeleted, onToggleDone, done, time } = this.props;
 
         let classNames;
 
@@ -22,7 +19,7 @@ class Task extends React.Component {
                         <span className="description"
                             onClick={onToggleDone}
                         >{label}</span>
-                        <span className="created">Created {new CreateDate().beginDate} ago</span>
+                        <span className="created">Created {`${formatDistanceToNow(time, { includeSeconds: true })}`} ago</span>
                     </label>
                     <button className="icon icon-edit"></button>
                     <button className="icon icon-destroy"
