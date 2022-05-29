@@ -1,4 +1,6 @@
 import { Component } from "react";
+import Proptypes from 'prop-types';
+import './tasks-filter.css'
 
 class TasksFilter extends Component {
 
@@ -21,6 +23,11 @@ class TasksFilter extends Component {
             </ul>
         )
     }
+}
+
+TasksFilter.propTypes = {
+    filter: Proptypes.string.isRequired,
+    onToggleFilterHandler: Proptypes.func.isRequired,
 }
 
 export default TasksFilter;

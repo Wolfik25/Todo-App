@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import NewTaskForm from './new-task-form';
-import TaskList from './task-list';
-import Footer from './footer';
+import NewTaskForm from '../NewTaskForm/new-task-form';
+import TaskList from '../TaskList/task-list';
+import Footer from '../Footer/footer';
+import './app.css'
 
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
             this.createTodoItem('Editing task'),
             this.createTodoItem('Active task')
         ],
+        filter: 'All'
     };
 
     createTodoItem(label) {
@@ -20,7 +22,8 @@ class App extends Component {
             label,
             done: false,
             id: this.maxId++,
-            time: new Date()
+            time: new Date(),
+            isEditing: false,
         }
     }
 
@@ -102,6 +105,32 @@ class App extends Component {
         this.setState({ todoData: todoData.filter((task) => !task.done) })
     }
 
+    onEditMode = (id) => {
+        const { todoData } = this.state;
+        const newArray = todoData.map((task) => {
+            if (task.done) return task;
+            if (task.id === id) return { ...task, isEditing: true };
+            if (task.isEditing) return { ...task, isEditing: false };
+            return task;
+        });
+
+        this.setState({
+            todoData: newArray
+        })
+}
+
+    onEdit = (text) => {
+        const { todoData } = this.state;
+        const newArray = todoData.map((task) => {
+            if (task.isEditing) return { ...task, isEditing: false, label: text };
+            return task;
+        });
+
+        this.setState({
+            todoData: newArray,
+        });
+    };
+    
     render() {
         const { todoData, filter } = this.state;
         const tasks = this.getTasksByFilter();
@@ -119,11 +148,14 @@ class App extends Component {
                 <section className="main">
                     <TaskList tasks={tasks}
                         onDeleted={this.deleteItem}
-                        onToggleDone={this.onToggleDone} />
+                        onToggleDone={this.onToggleDone}
+                        onEditMode={this.onEditMode}
+                        onEdit={ this.onEdit}/>
                     <Footer todoCount={todoCount}
                         filter={filter}
                         onClearCompleted={this.onClearCompleted}
-                        onToggleFilterHandler={this.onToggleFilter} />
+                        onToggleFilterHandler={this.onToggleFilter}
+                        />
                 </section>
             </section>
         );
