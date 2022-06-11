@@ -37,12 +37,12 @@
     "rules": {
         "indent": [
             "error",
-            2,
+            4,
             {
                 "SwitchCase": 1
             }
         ],
-        "prettier/prettier": "error",
+        "prettier/prettier": 0,
         "linebreak-style": [
             0,
             "unix"
