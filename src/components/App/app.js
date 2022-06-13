@@ -24,6 +24,8 @@ class App extends Component {
             id: this.maxId++,
             time: new Date(),
             isEditing: false,
+            timerMin: '0',
+            timerSec: '0',
         };
     }
 
