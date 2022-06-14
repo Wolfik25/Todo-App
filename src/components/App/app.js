@@ -17,15 +17,15 @@ class App extends Component {
         filter: 'All',
     };
 
-    createTodoItem(label) {
+    createTodoItem(label, min, sec) {
         return {
             label,
             done: false,
             id: this.maxId++,
             time: new Date(),
             isEditing: false,
-            timerMin: '0',
-            timerSec: '0',
+            timerMin: min || '0',
+            timerSec: sec || '0',
         };
     }
 
@@ -41,8 +41,8 @@ class App extends Component {
         });
     };
 
-    addItem = (text) => {
-        const newItem = this.createTodoItem(text);
+    addItem = (text, min, sec) => {
+        const newItem = this.createTodoItem(text, min, sec);
 
         this.setState(({ todoData }) => {
             const newArr = [...todoData, newItem];
@@ -112,7 +112,7 @@ class App extends Component {
     onEdit = (text) => {
         const { todoData } = this.state;
         const newArray = todoData.map((task) => {
-            if (task.isEditing) return { ...task, isEditing: false, label: text };
+            if (task.isEditing) return { ...task, isEditing: false, label: text};
             return task;
         });
 

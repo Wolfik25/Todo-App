@@ -8,6 +8,8 @@ class NewTaskForm extends Component {
         const { isEditorField, editingText } = this.props;
         this.state = {
             label: isEditorField ? editingText : '',
+            min: '',
+            sec: '',
         };
     }
 
@@ -19,21 +21,33 @@ class NewTaskForm extends Component {
 
     onKeyDown = (e) => {
         const { addItem, isEditorField, onEdit } = this.props;
-        const { label } = this.state;
+        const { label, min, sec } = this.state;
 
         if (e.key === 'Enter' && label.trim()) {
             if (!isEditorField) {
-                addItem(label);
+                addItem(label, min, sec);
             } else {
                 onEdit(label);
             }
             e.target.value = '';
+            this.setState({ min: '', sec: '' });
         }
+    };
+
+    onChangeTime = (e) => {
+        const { value, name } = e.target;
+
+        if (value.trim() && +value <= 59 && +value >= 0 && !Number.isNaN(value)) {
+            this.setState({
+                [name]: value,
+            });
+        }
+        if (!value.trim()) this.setState({ [name]: '' });
     };
 
     render() {
         const { isEditorField } = this.props;
-        const { label } = this.state;
+        const { label, min, sec } = this.state;
 
         let classNames;
         if (!isEditorField) {
@@ -41,21 +55,16 @@ class NewTaskForm extends Component {
         } else classNames = 'edit';
 
         return (
-            <form className="new-todo-form">
-                <input className={classNames} placeholder={isEditorField ? '' : 'Task'} autoFocus onChange={this.onLabelChange}
-                    onKeyDown={this.onKeyDown}
-                    label={label} />
-                <input className="new-todo-form__timer" placeholder="Min" autoFocus />
-                <input className="new-todo-form__timer" placeholder="Sec" autoFocus />
-            </form>
-        /* <input
-                className={classNames}
-                placeholder={isEditorField ? '' : 'Task'}
-                autoFocus
-                onChange={this.onLabelChange}
-                onKeyDown={this.onKeyDown}
-                label={label}
-            /> */
+            <>
+                {(isEditorField)
+                    ? <input className={classNames} autoFocus onChange={this.onLabelChange} onKeyDown={this.onKeyDown} label={label}/>
+                    : <form className="new-todo-form">
+                        <input className={classNames} placeholder='Task' autoFocus name='label' onChange={this.onLabelChange} onKeyDown={this.onKeyDown} label={label} />
+                        <input className="new-todo-form__timer" placeholder="Min" name='min' value={min} autoFocus onChange={this.onChangeTime} />
+                        <input className="new-todo-form__timer" placeholder="Sec" name='sec' value={sec} autoFocus onChange={this.onChangeTime} />
+                    </form>
+                }
+            </>
         );
     }
 }
