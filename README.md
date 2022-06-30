@@ -1,7 +1,4 @@
 Todo Application;
 
 VERCEL:
-https://todo-list-liart-phi.vercel.app/
-
-Task-Timer Vercel: 
-https://todo-list-wolfik25.vercel.app/
+https://todo-list-cu4hng443-wolfik25.vercel.app
