@@ -1,27 +1,18 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import './new-task-form.css';
 
-class NewTaskForm extends Component {
-    constructor(props) {
-        super(props);
-        const { isEditorField, editingText } = this.props;
-        this.state = {
-            label: isEditorField ? editingText : '',
-            min: '',
-            sec: '',
-        };
-    }
+function NewTaskForm({ isEditorField, editingText, addItem, onEdit }) {
 
-    onLabelChange = (e) => {
-        this.setState({
-            label: e.target.value,
-        });
+    const [label, setLabel] = useState(isEditorField ? editingText : '');
+    const [min, setMin] = useState('');
+    const [sec, setSec] = useState('');    
+
+    const onLabelChange = (e) => {
+        setLabel(e.target.value);
     };
 
-    onKeyDown = (e) => {
-        const { addItem, isEditorField, onEdit } = this.props;
-        const { label, min, sec } = this.state;
+    const onKeyDown = (e) => {
 
         if (e.key === 'Enter' && label.trim()) {
             if (!isEditorField) {
@@ -30,43 +21,46 @@ class NewTaskForm extends Component {
                 onEdit(label);
             }
             e.target.value = '';
-            this.setState({ min: '', sec: '' });
+            setMin('');
+            setSec('');
         }
     };
 
-    onChangeTime = (e) => {
+    const onChangeTime = (e) => {
         const { value, name } = e.target;
 
         if (value.trim() && +value <= 59 && +value >= 0 && !Number.isNaN(value)) {
-            this.setState({
-                [name]: value,
-            });
+            if (name === 'sec') {
+                setSec(value);
+            }
+            if (name === 'min') {
+                setMin(value);
+            }
         }
-        if (!value.trim()) this.setState({ [name]: '' });
+        if (!value.trim()) { 
+            setSec('');
+            setMin('');
+        }
     };
 
-    render() {
-        const { isEditorField } = this.props;
-        const { label, min, sec } = this.state;
+    let classNames;
+    if (!isEditorField) {
+        classNames = 'new-todo';
+    } else classNames = 'edit';
 
-        let classNames;
-        if (!isEditorField) {
-            classNames = 'new-todo';
-        } else classNames = 'edit';
-
-        return (
-            <>
-                {(isEditorField)
-                    ? <input className={classNames} autoFocus onChange={this.onLabelChange} onKeyDown={this.onKeyDown} label={label}/>
-                    : <form className="new-todo-form">
-                        <input className={classNames} placeholder='Task' autoFocus name='label' onChange={this.onLabelChange} onKeyDown={this.onKeyDown} label={label} />
-                        <input className="new-todo-form__timer" placeholder="Min" name='min' value={min} autoFocus onChange={this.onChangeTime} />
-                        <input className="new-todo-form__timer" placeholder="Sec" name='sec' value={sec} autoFocus onChange={this.onChangeTime} />
-                    </form>
-                }
-            </>
-        );
-    }
+    return (
+        <>
+            {(isEditorField)
+                ? <input className={classNames} autoFocus onChange={onLabelChange} onKeyDown={onKeyDown} label={label} />
+                : <form className="new-todo-form">
+                    <input className={classNames} placeholder='Task' autoFocus name='label' onChange={onLabelChange} onKeyDown={onKeyDown} label={label} />
+                    <input className="new-todo-form__timer" placeholder="Min" name='min' value={min} autoFocus onChange={onChangeTime} />
+                    <input className="new-todo-form__timer" placeholder="Sec" name='sec' value={sec} autoFocus onChange={onChangeTime} />
+                </form>
+            }
+        </>
+    );
+    
 }
 
 NewTaskForm.defaultProps = {
